@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/clientForm.css">
+
+  <title>Create/Edit Client</title>
+</head>
+<body>
+    <!-- Logo -->
+    <div id="logo-container">
+      <img src="/img/Binary.png" alt="Logo" id="logo">
+      </div>
+  
+  <!-- Tabs for different sections -->
+  <div>
+    <button onclick="openTab('general')">General</button>
+    <button onclick="openTab('contacts')" class="contacts">Contact(s)</button>
+  </div>
+  
+    <!-- General tab -->
+    <div id="general" class="tabcontent">
+      <form id="clientForm" action="/clients/new" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    
+        <!-- Display client code if it exists (after saving) -->
+        <% if (client && client.clientCode) { %>
+          <p>Client Code: <%= client.clientCode %></p>
+        <% } %>
+    
+        <!-- Hide the client code input if it's a new client -->
+        <div id="clientCodeContainer" style="display: <%= client && client.clientCode ? 'none' : 'block' %>;">
+          <label for="clientCode">Client Code:</label>
+          <input type="text" id="clientCode" name="clientCode" readonly>
+        </div>
+    
+        <button type="submit">Create Client</button>
+      </form>
+    
+    </div>
+
+  <!-- Contacts tab -->
+<div id="contacts" class="tabcontent">
+  <div class="contacts-section linked-contacts">
+    <h2>Linked Contacts</h2>
+    <ul>
+      <% if (client && client.length > 0) { %>
+        <% client.forEach(client => { %>
+          <li>
+            <span class="contact-name"><%= client.name %> (<%= client.clientCode %>)</span>
+            <span class="contact-email"><%= client.email %></span>
+            <a href="#" class="unlink" data-client-id="<%= client._id %>" data-contact-id="<%= contact._id %>">Unlink</a>
+          </li>
+        <% }); %>
+      <% } else { %>
+        <li class="no-contacts">No linked contacts.</li>
+      <% } %>
+    </ul>
+  </div>
+
+  <hr>
+
+
+
+  <!-- Include script for handling tab switching -->
+  <script>
+    function openTab(tabName) {
+      var i, tabcontent;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      document.getElementById(tabName).style.display = "block";
+    }
+  </script>
+
+  <!-- Include script for handling tab switching and AJAX unlinking -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // ... (your existing tab switching script)
+
+      // AJAX unlinking logic
+      $('.unlink').on('click', function (event) {
+        event.preventDefault();
+        const clientId = $(this).data('client-id');
+        const contactId = $(this).data('contact-id');
+
+        $.ajax({
+          url: `/clients/${clientId}/unlink/${contactId}`,
+          method: 'GET',
+          success: function (data) {
+            console.log(data); // Log the response, you can handle it as needed
+            // Reload the page or update the UI as necessary
+            location.reload();
+          },
+          error: function (error) {
+            console.error('Error:', error);
+          }
+        });
+      });
+    });
+
+    // AJAX client code generation logic
+    $('#clientForm').on('submit', function (event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: $(this).attr('action'),
+        method: $(this).attr('method'),
+        data: $(this).serialize(),
+        success: function (data) {
+          console.log(data); // Log the response, you can handle it as needed
+          // Update the UI with the generated client code
+          $('#clientCode').val(data.clientCode);
+          $('#clientCodeContainer').show();
+        },
+        error: function (error) {
+          console.error('Error:', error);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

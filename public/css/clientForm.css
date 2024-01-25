@@ -1,0 +1,188 @@
+/* clientForm.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  color: #333;
+  text-align: center;
+}
+
+/* Tabs styling */
+div {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #C41200;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+ .contacts{
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #212529;
+}
+
+/* Form styling */
+form {
+  margin: 20px 0;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/* Linked Contacts and Available Contacts styling */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.unlink {
+  color: #e74c3c;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.unlink:hover {
+  text-decoration: none;
+}
+
+/* Client Code message styling */
+p {
+  font-weight: bold;
+  color: #C41200;
+}
+
+/* Additional styles based on your preference */
+/* Add these styles to clientForm.css */
+
+/* Add these styles to clientForm.css */
+
+/* Styling for Linked Contacts and Available Contacts */
+/* Add these styles to clientForm.css */
+
+/* Styling for Linked Contacts and Available Contacts */
+/* Add these styles to clientForm.css */
+
+/* Styling for Linked Contacts and Available Contacts */
+/* Add these styles to clientForm.css */
+
+/* Styling for Contacts tab */
+#contacts ul {
+  list-style: none;
+  padding: 0;
+}
+
+#contacts .contacts-section {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#contacts .contacts-section h2 {
+  margin: 0;
+  padding: 5px;
+  background-color: #C41200;
+  color: white;
+  border-radius: 5px;
+}
+
+#contacts li {
+  display: flex; /* Add this line for consistent alignment */
+  align-items: center; /* Add this line for vertical centering */
+  margin: 10px 0;
+  padding-left: 10px; /* Add this line for consistent left padding */
+}
+
+#contacts .unlink,
+#contacts .link {
+  margin-left: auto; /* Add this line to push the buttons to the right */
+  padding: 5px 10px; /* Add padding to buttons */
+  color: #e74c3c;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#contacts .unlink:hover,
+#contacts .link:hover {
+  text-decoration: none;
+}
+
+#contacts .no-contacts {
+  margin-top: 10px;
+  color: #888;
+}
+
+.contact-name {
+  margin-right: 10px; /* Add margin to separate name and email */
+}
+#contacts {
+  display: none;
+}
+
+
+/* Styling for Logo */
+#logo-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#logo {
+  width: 150px; /* Adjust the width as needed */
+  height: auto;
+  border-radius: 8px; /* Add rounded corners */
+  
+}
+/* Add these styles to clientForm.css */
+
+label {
+  display: block;
+  margin: 10px 0;
+  font-weight: bold;
+  text-align: left; /* Align labels to the left */
+}
+.error-message {
+  color: red;
+}

@@ -1,0 +1,54 @@
+/* clientsView.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+  background-color: #f5f5f5;
+  color: #333; /* Text color */
+}
+
+h1 {
+  text-align: center;
+  color: #C41200; /* Heading color */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead {
+  background-color: #C41200; /* Header background color */
+  color: white; /* Header text color */
+  width: 100%;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd; /* Border color */
+}
+
+/* Align Name and Client Code to the left */
+th:nth-child(1),
+td:nth-child(1),
+th:nth-child(2),
+td:nth-child(2) {
+  text-align: left;
+}
+
+/* Center-align Number of Linked Contacts */
+th:nth-child(3),
+td:nth-child(3) {
+  text-align: center;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternate row background color */
+}
+
+/* Styles for no clients found message */
+tbody td[colspan="3"] {
+  text-align: center;
+  color: #888; /* Message text color */
+}

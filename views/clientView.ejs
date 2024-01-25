@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/clientView.css">
+  <title>Clients View</title>
+</head>
+<body>
+  <% if (client.length > 0) { %>
+    <div id="banner-container">
+      <img src="/img/Banner.png" alt="Banner Image" id="banner">
+    </div>
+    <h1 style="text-align: left;">Clients</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Client Code</th>
+          <th>Number of Linked Contacts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% client.forEach(client => { %>
+          <tr>
+            <td><%= client.name %></td>
+            <td><%= client.clientCode %></td>
+            <td><!-- Add logic for the number of linked contacts --></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div id="banner-container">
+      <img src="/img/Banner.png" alt="Banner Image" id="banner">
+    </div>
+    <h1 style="text-align: left;">Clients</h1>
+    <p>No client(s) found.</p>
+  <% } %>
+</body>
+</html>

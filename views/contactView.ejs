@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/contactView.css">
+
+  <title>Contact(s)</title>
+</head>
+<body>
+  <% if (contact.length > 0) { %>
+    <div id="banner-container">
+      <img src="/img/Banner.png" alt="Banner Image" id="banner">
+    </div>
+    <h1 style="text-align: left;">Contacts</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Surname</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>No. of Linked Clients</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% contact.forEach(contact => { %>
+          <tr>
+            <td><%= contact.surname %></td>
+            <td><%= contact.name %></td>
+            <td><%= contact.email %></td>
+            <td><!-- Add logic for the number of linked clients --></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div id="banner-container">
+      <img src="/img/Banner.png" alt="Banner Image" id="banner">
+    </div>
+    <h1 style="text-align: left;">Clients</h1>
+    <p>No client(s) found.</p>
+  <% } %>
+</body>
+</html>

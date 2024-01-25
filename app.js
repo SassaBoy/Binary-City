@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
-
+const linkedRoutes = require('./controllers/linkedController');
+const clientRoutes = require('./controllers/clientController');
+const contactRoutes = require('./controllers/contactController');
 // Load environment variables from .env file
 dotenv.config();
 
@@ -16,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -29,11 +32,11 @@ app.get('/', (req, res) => {
 });
 
 // Include client routes
-const clientRoutes = require('./controllers/clientController');
+
 app.use('/clients', clientRoutes);
+app.use('/linked', linkedRoutes); // Add this line
 
 // Include contact routes
-const contactRoutes = require('./controllers/contactController');
 app.use('/contacts', contactRoutes);
 
 // Start the server

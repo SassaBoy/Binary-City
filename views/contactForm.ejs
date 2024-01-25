@@ -18,7 +18,6 @@
     <button onclick="openTab('contacts')" class="contacts">Contact(s)</button>
   </div>
   
-  <!-- ... your existing HTML ... -->
 
 <div id="general" class="tabcontent">
   <form action="/contacts/new" method="POST">
@@ -35,110 +34,56 @@
     <input type="email" id="email" name="email" required>
     <div id="errorMessages" style="display: none; color: red;"></div>
 
-    <button type="submit">Save Contact</button>
+    <button type="submit">Create Contact</button>
   </form>
 </div>
 
-<!-- ... your existing script ... -->
+<!-- ... (your existing HTML) ... -->
+
+<!-- Linked Contacts -->
+<ul id="linkedContacts">
+  <% if (linkedContacts.length > 0) { %>
+    <li>Linked Contacts:</li>
+    <% linkedContacts.forEach(linkedContact => { %>
+      <a href="#" class="unlink" data-client-id="<%= linkedContact.clientId %>" data-contact-id="<%= linkedContact.contactId._id %>">Unlink</a>
+    <% }); %>
+  <% } else { %>
+    <li>No linked contacts.</li>
+  <% } %>
+</ul>
+
+<!-- Available Contacts -->
+<ul id="availableContacts">
+  <% if (contact.length > 0) { %>
+    <li>Available Contacts:</li>
+    <% contact.forEach(contact => { %>
+      <li>
+        <%= contact.name %> (<%= contact.email %>) 
+        <a href="#" class="link" data-contact-id="<%= contact._id %>">Link</a>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <li>No available contacts.</li>
+  <% } %>
+</ul>
 
 
-  <!-- Contacts tab -->
-  <div id="contacts" class="tabcontent">
-    <!-- Logic for displaying linked contacts -->
-    <ul>
-      <% if (client && client.length > 0) { %>
-        <li>Linked Contacts:</li>
-        <% client.forEach(client => { %>
-          <!-- Assuming you have a link like this in clientForm.ejs -->
-          <a href="#" class="unlink" data-client-id="<%= client._id %>" data-contact-id="<%= contact._id %>">Unlink</a>
-        <% }); %>
-      <% } else { %>
-        <li>No linked contacts.</li>
-      <% } %>
-    </ul>
-
-    <!-- Logic for displaying available contacts to link -->
-    <ul>
-      <li>Available Contacts:</li>
-      <% contact.forEach(contact => { %>
-        <li>
-          <%= contact.name %> (<%= contact.email %>) 
-          <a href="#" class="link" data-client-id="<%= client._id %>" data-contact-id="<%= contact._id %>">Link</a>
-        </li>
-      <% }); %>
-    </ul>
+<!-- Modal for linking contacts to clients -->
+<div id="linkModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Link Contact to Clients</h2>
+    <label for="clientDropdown">Select Clients:</label>
+    <select id="clientDropdown" multiple>
+      <!-- Options will be dynamically added using JavaScript -->
+    </select>
+    <button id="linkButton">Link</button>
   </div>
+</div>
 
-  <!-- Include script for handling tab switching -->
-  <script>
-    function openTab(tabName) {
-      var i, tabcontent;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      document.getElementById(tabName).style.display = "block";
-    }
-  </script>
- 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // ... (your existing tab switching script)
-  
-// AJAX linking logic
-$('.link').on('click', function (event) {
-      event.preventDefault();
-      const clientId = $(this).data('client-id');
-      const contactId = $(this).data('contact-id');
 
-      $.ajax({
-        url: `/clients/new/link/${clientId}/${contactId}`,
-        method: 'GET',
-        success: function (data) {
-          console.log(data); // Log the response, you can handle it as needed
-          // Reload the page or update the UI as necessary
-          location.reload();
-        },
-        error: function (error) {
-          console.error('Error:', error);
-        }
-      });
-    });
+  <script src="/js/script.js" defer></script>
 
-// AJAX form validation logic
-$('#general form').on('submit', function (event) {
-  event.preventDefault();
-
-  // Get form data
-  const formData = {
-    name: $('#name').val(),
-    surname: $('#surname').val(),
-    email: $('#email').val(),
-  };
-
-  // Send AJAX request to the backend for validation
-  $.ajax({
-  url: '/contacts/new',
-  method: 'POST',
-  data: formData,
-  success: function (data) {
-    $('#errorMessages').text(data.error || data.success).css('color', data.error ? 'red' : 'green').show();
-    if (!data.error) {
-      // Redirect to contact view on success
-      window.location.href = '/contacts';
-    }
-  },
-  
-  error: function (xhr) {
-    // Handle error response
-    const responseData = JSON.parse(xhr.responseText);
-    $('#errorMessages').text(responseData.error).show();
-  }
-});
-
-});
-    });
-</script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

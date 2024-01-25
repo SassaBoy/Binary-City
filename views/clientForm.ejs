@@ -32,7 +32,7 @@
         <% } %>
     
         <!-- Hide the client code input if it's a new client -->
-        <div id="clientCodeContainer" style="display: <%= client && client.clientCode ? 'none' : 'block' %>;">
+        <div id="clientCodeContainer" style="display: <%= client && client.clientCode ? 'none' : 'block' %>">
           <label for="clientCode">Client Code:</label>
           <input type="text" id="clientCode" name="clientCode" readonly>
         </div>
@@ -60,68 +60,8 @@
       <% } %>
     </ul>
   </div>
-
   <hr>
 
-
-
-  <!-- Include script for handling tab switching -->
-  <script>
-    function openTab(tabName) {
-      var i, tabcontent;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      document.getElementById(tabName).style.display = "block";
-    }
-  </script>
-
-  <!-- Include script for handling tab switching and AJAX unlinking -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      // ... (your existing tab switching script)
-
-      // AJAX unlinking logic
-      $('.unlink').on('click', function (event) {
-        event.preventDefault();
-        const clientId = $(this).data('client-id');
-        const contactId = $(this).data('contact-id');
-
-        $.ajax({
-          url: `/clients/${clientId}/unlink/${contactId}`,
-          method: 'GET',
-          success: function (data) {
-            console.log(data); // Log the response, you can handle it as needed
-            // Reload the page or update the UI as necessary
-            location.reload();
-          },
-          error: function (error) {
-            console.error('Error:', error);
-          }
-        });
-      });
-    });
-
-    // AJAX client code generation logic
-    $('#clientForm').on('submit', function (event) {
-      event.preventDefault();
-
-      $.ajax({
-        url: $(this).attr('action'),
-        method: $(this).attr('method'),
-        data: $(this).serialize(),
-        success: function (data) {
-          console.log(data); // Log the response, you can handle it as needed
-          // Update the UI with the generated client code
-          $('#clientCode').val(data.clientCode);
-          $('#clientCodeContainer').show();
-        },
-        error: function (error) {
-          console.error('Error:', error);
-        }
-      });
-    });
-  </script>
+  <script src="/js/script.js" defer></script>
 </body>
 </html>

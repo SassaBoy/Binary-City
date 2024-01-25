@@ -1,10 +1,26 @@
+// contactModel.js
 const mongoose = require('mongoose');
 
 const contactSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  surname: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  // Add other fields as needed
+  name: {
+    type: String,
+    required: true,
+  },
+  surname: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  linkedClients: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Linked',
+    },
+  ],
 });
 
 const Contact = mongoose.model('Contact', contactSchema);

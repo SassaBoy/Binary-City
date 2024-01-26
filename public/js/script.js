@@ -88,6 +88,7 @@ $(document).ready(function () {
   // Close the modal when the close button is clicked
   $('.close').on('click', function () {
     closeModal();
+    closeUnlinkModal();
   });
 
  
@@ -128,16 +129,22 @@ function populateDropdown(options) {
 
 async function linkClientsToContact(contactId, selectedClients) {
   try {
+    // Ensure selectedClients is an array and not empty
+    const clientsArray = Array.isArray(selectedClients) ? selectedClients : [selectedClients];
+
+    
+
     // Send an AJAX request to link clients to the contact
     const response = await $.ajax({
-      url: `/contacts/link/${contactId}`,
+      url: `/linked/clients/link/${contactId}`,
       method: 'POST',
-      data: { clients: selectedClients },
+      contentType: 'application/json',
+      data: JSON.stringify({ clients: clientsArray }),
     });
 
     // Check the response and handle it accordingly
     if (response.success) {
-      console.log('Clients linked successfully:', selectedClients);
+      console.log('Clients linked successfully:', clientsArray);
       // Remove the linked contact from the unlinked section
       $(`#availableContacts li[data-contact-id="${contactId}"]`).remove();
     } else {

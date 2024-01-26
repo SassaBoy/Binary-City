@@ -7,13 +7,11 @@ const linkedSchema = new mongoose.Schema({
     ref: 'Contact',
     required: true,
   },
-  clients: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Client',
-    required: true,
-  }],
+  clients: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true }],
+    default: [],
+  },
 });
-
 const Linked = mongoose.model('LinkedModel', linkedSchema);
 
 module.exports = Linked;

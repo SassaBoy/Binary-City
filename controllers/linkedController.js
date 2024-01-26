@@ -3,26 +3,32 @@ const express = require('express');
 const router = express.Router();
 const Linked = require('../models/linked');
 
-// Add a new route to handle linking clients to a contact
-router.post('/link/:contactId', async (req, res) => {
+router.post('/clients/link/:contactId', async (req, res) => {
+  const contactId = req.params.contactId;
+  let clients = req.body.clients;
+
   try {
-    const contactId = req.params.contactId;
-    const selectedClients = req.body.clients;
+    // Find the linked document for the given contactId
+    let linkedDocument = await Linked.findOne({ contact: contactId });
 
-    // Create a linked document
-    const linkedDocument = new Linked({
-      contact: contactId,
-      clients: selectedClients,
-    });
+    // If no linked document exists, create a new one
+    if (!linkedDocument) {
+      linkedDocument = new Linked({ contact: contactId, clients: [] });
+    }
+// Ensure clients is an array and not empty
+clients = Array.isArray(clients) && clients.length > 0 ? clients : [];
+    // Rest of your code remains the same...
+    
+    // Add the clients to the linked document
+    linkedDocument.clients = [...linkedDocument.clients, ...clients];
+    
+    // Save the linked document
+    const savedLinkedDocument = await linkedDocument.save();
 
-    // Insert the linked document into the database
-    await linkedDocument.save();
-
-    // Send a success response
-    res.json({ success: true });
+    res.json({ success: true, linkedDocument: savedLinkedDocument });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred. Please try again.' });
+    console.error('Error linking clients:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 });
 

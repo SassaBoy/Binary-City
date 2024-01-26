@@ -137,9 +137,17 @@ router.get('/', async (req, res) => {
     // Fetch linked contacts
     const linkedContacts = await Linked.find().populate('contactId');
 
-    // Separate linked and available contacts
-    const linkedContactIds = linkedContacts.map(linkedContact => linkedContact.contactId._id.toString());
-    const availableContacts = contacts.filter(contact => !linkedContactIds.includes(contact._id.toString()));
+    // Check if linkedContacts is an array before mapping
+    const linkedContactIds = Array.isArray(linkedContacts) ? linkedContacts.map(linkedContact => {
+      // Check if linkedContact and linkedContact.contactId exist before accessing _id
+      return linkedContact.contactId ? linkedContact.contactId._id.toString() : null;
+    }) : [];
+
+    // Check if contacts is an array before filtering
+    const availableContacts = Array.isArray(contacts) ? contacts.filter(contact => {
+      // Check if contact._id exists before accessing toString()
+      return !linkedContactIds.includes(contact._id.toString());
+    }) : [];
 
     res.render('contactView', { clients, linkedContacts, availableContacts, contacts });
   } catch (error) {
@@ -147,6 +155,7 @@ router.get('/', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 // Other routes for contact actions

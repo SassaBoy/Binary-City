@@ -127,28 +127,23 @@ function populateDropdown(options) {
   });
 }
 
-async function linkClientsToContact(contactId, selectedClients) {
+async function linkClientToContact(contactId, selectedClient) {
   try {
-    // Ensure selectedClients is an array and not empty
-    const clientsArray = Array.isArray(selectedClients) ? selectedClients : [selectedClients];
-
-    
-
-    // Send an AJAX request to link clients to the contact
+    // Send an AJAX request to link the client to the contact
     const response = await $.ajax({
       url: `/linked/clients/link/${contactId}`,
       method: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({ clients: clientsArray }),
+      data: JSON.stringify({ client: selectedClient }), // Pass selectedClient in the request body
     });
 
     // Check the response and handle it accordingly
     if (response.success) {
-      console.log('Clients linked successfully:', clientsArray);
+      console.log('Client linked successfully:', selectedClient);
       // Remove the linked contact from the unlinked section
       $(`#availableContacts li[data-contact-id="${contactId}"]`).remove();
     } else {
-      console.error('Error linking clients:', response.error);
+      console.error('Error linking client:', response.error);
       // Optionally, you can show an error message to the user
     }
   } catch (error) {
@@ -156,16 +151,18 @@ async function linkClientsToContact(contactId, selectedClients) {
   }
 }
 
+
+
 // Add an event listener for the Link button click
-$('#linkButton').on('click', function () {
-  // Retrieve selected clients from the dropdown
-  const selectedClients = $('#clientList').val();
+$('#linkButton').on('click', async function () {
+  // Retrieve selected client from the dropdown
+  const selectedClient = $('#clientDropdown').val();
 
   // Get the contact ID from the modal data attribute
   const contactId = $('#linkModal').data('contact-id');
 
-  // Call the function to link clients to the contact
-  linkClientsToContact(contactId, selectedClients);
+  // Call the function to link client to the contact
+  await linkClientToContact(contactId, selectedClient);
 
   // Close the modal
   closeModal();
@@ -173,18 +170,16 @@ $('#linkButton').on('click', function () {
 
 // Add an event listener for the modal close button
 $('.close').on('click', function () {
-  // Get the linked client IDs from the selected options in the dropdown
-  const linkedClientIds = $('#clientDropdown').val();
+  // Get the linked client ID from the selected option in the dropdown
+  const linkedClientId = $('#clientDropdown').val();
 
-  // Iterate through the linked clients and remove them from the dropdown
-  linkedClientIds.forEach((clientId) => {
-    // Remove from the modal dropdown
-    $(`#clientDropdown option[value="${clientId}"]`).remove();
-  });
+  // Remove from the modal dropdown
+  $(`#clientDropdown option[value="${linkedClientId}"]`).remove();
 
   // Close the modal
   closeModal();
 });
+
 // Open the unlink modal when Unlink is clicked
 $('.unlink').on('click', function (event) {
   event.preventDefault();
@@ -248,11 +243,32 @@ $('#unlinkButton').on('click', function () {
   // Get the client ID from the modal data attribute
   const clientId = $('#unlinkModal').data('client-id');
 
-  // Call the function to unlink contacts from the client
-  unlinkContactsFromClient(clientId, selectedContacts);
+  // Ensure selectedContacts is an array and not empty
+  const contactsArray = Array.isArray(selectedContacts) ? selectedContacts : [selectedContacts];
 
-  // Close the unlink modal
-  closeUnlinkModal();
+  // Send an AJAX request to unlink contacts from the client
+  $.ajax({
+    url: `/client/unlink/${clientId}`,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ contacts: contactsArray }),
+    success: function (response) {
+      if (response.success) {
+        console.log('Contacts unlinked successfully:', contactsArray);
+        // Optionally, you can update the UI to reflect the changes
+      } else {
+        console.error('Error unlinking contacts:', response.error);
+        // Optionally, you can show an error message to the user
+      }
+    },
+    error: function (error) {
+      console.error('An error occurred:', error);
+    },
+    complete: function () {
+      // Close the unlink modal
+      closeUnlinkModal();
+    },
+  });
 });
 
 function closeUnlinkModal() {

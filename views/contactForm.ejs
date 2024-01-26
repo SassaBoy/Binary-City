@@ -76,13 +76,16 @@
   </ul>
 </div>
   <!-- Modal for linking contacts to clients -->
-  <div id="linkModal" class="modal">
+  <div id="linkModal" class="modal" data-contact-id="">
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Link Contact to Clients</h2>
       <form id="linkForm">
-        <label for="clientDropdown">Select Clients:</label>
-        <select multiple id="clientDropdown" name="clients[]">
+        <!-- Hidden input to store the contact ID -->
+        <input type="hidden" id="contactIdInput" name="contactId" value="">
+        
+        <label for="clientDropdown">Select a Client:</label>
+        <select id="clientDropdown" name="clients">
           <!-- Options will be dynamically added using JavaScript -->
         </select>
         <button type="button" id="linkButton">Link</button>

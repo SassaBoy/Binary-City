@@ -1,20 +1,24 @@
-// linked.js or wherever you define the Linked model
+// linkedModel.js
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const linkedSchema = new Schema({
-  contact: {
-    type: Schema.Types.ObjectId,
-    ref: 'Contact', // Reference to your Contact model
+const linkedSchema = new mongoose.Schema({
+  contactId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Contact',
     required: true,
   },
-  clients: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Client', // Reference to your Client model (or whatever model clients represent)
+  contactDetails: {
+    // Add fields as needed to store contact details
+    type: Object,
     required: true,
-  }],
+  },
+  client: {
+    // Assuming that client contains details like _id, name, etc.
+    type: Object,
+    required: true,
+  },
 });
 
-const Linked = mongoose.model('Linked', linkedSchema);
+const Linked = mongoose.model('LinkedModel', linkedSchema);
 
 module.exports = Linked;

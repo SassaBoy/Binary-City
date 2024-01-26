@@ -37,7 +37,7 @@
           <input type="text" id="clientCode" name="clientCode" readonly>
         </div>
     
-        <button type="submit">Create Client</button>
+        <button type="submit" onclick="submitForm()">Create Client</button>
       </form>
     
     </div>
@@ -76,5 +76,13 @@
   </div>
   
   <script src="/js/script.js" defer></script>
+  <script>
+    function submitForm() {
+        // Submit the form
+        document.getElementById('clientForm').submit();
+        // Refresh the page
+        location.reload();
+    }
+</script>
 </body>
 </html>

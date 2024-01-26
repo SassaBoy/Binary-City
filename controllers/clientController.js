@@ -4,7 +4,6 @@ const Client = require('../models/clientModel');
 const Contact = require('../models/contactModel');
 
 // Function to generate unique client code
-// Function to generate unique client code
 const generateClientCode = async (name) => {
   const sanitizedAlpha = name.replace(/[^A-Z]/g, '').toUpperCase().padEnd(3, 'A').slice(0, 3);
   const clientsCount = await Client.countDocuments() + 1;
@@ -14,6 +13,7 @@ const generateClientCode = async (name) => {
 };
 
 // Client creation route (GET)
+//clients/new
 router.get('/new', async (req, res) => {
   try {
     const client = await Client.find().sort({ name: 'asc' });

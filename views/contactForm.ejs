@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/contactForm.css">
   <link rel="stylesheet" type="text/css" href="/css/clientForm.css">
   <title>Create Client</title>
@@ -81,14 +80,22 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Link Contact to Clients</h2>
-      <ul id="clientList">
-        <!-- Options will be dynamically added using JavaScript -->
-      </ul>
-      <button id="linkButton">Link</button>
+      <form id="linkForm">
+        <label for="clientDropdown">Select Clients:</label>
+        <select multiple id="clientDropdown" name="clients[]">
+          <!-- Options will be dynamically added using JavaScript -->
+        </select>
+        <button type="button" id="linkButton">Link</button>
+      </form>
     </div>
   </div>
+  
+  
+  
 
   <script src="/js/script.js" defer></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   
 </body>

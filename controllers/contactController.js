@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Contact = require('../models/contactModel');
 const Client = require('../models/clientModel');
-const Linked = require('../models/LinkedModel');
+const Linked = require('../models/linked');
 const mongoose = require('mongoose');
 
 const ObjectId = mongoose.Types.ObjectId;

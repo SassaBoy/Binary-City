@@ -1,31 +1,25 @@
 // linkedController.js
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/contactModel');
-const Client = require('../models/clientModel');
-const Linked = require('../models/LinkedModel');
+const Linked = require('../models/linked');
 
-// Link a contact to one or more clients
+// Add a new route to handle linking clients to a contact
 router.post('/link/:contactId', async (req, res) => {
   try {
-    const contact = await Contact.findById(req.params.contactId);
+    const contactId = req.params.contactId;
+    const selectedClients = req.body.clients;
 
-    // Remove existing links for this contact
-    await Linked.deleteMany({ contact: contact._id });
+    // Create a linked document
+    const linkedDocument = new Linked({
+      contact: contactId,
+      clients: selectedClients,
+    });
 
-    // Link the contact to the selected clients
-    const linkedClients = req.body.clients.map(clientId => ({
-      contact: contact._id,
-      client: clientId,
-    }));
+    // Insert the linked document into the database
+    await linkedDocument.save();
 
-    const linked = await Linked.create(linkedClients);
-
-    // Update the contact's linkedClients field
-    contact.linkedClients = linked.map(link => link._id);
-    await contact.save();
-
-    res.status(200).json({ success: 'Contacts linked successfully.' });
+    // Send a success response
+    res.json({ success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'An error occurred. Please try again.' });

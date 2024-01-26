@@ -178,6 +178,80 @@ $('.close').on('click', function () {
   // Close the modal
   closeModal();
 });
+// Open the unlink modal when Unlink is clicked
+$('.unlink').on('click', function (event) {
+  event.preventDefault();
+  const clientId = $(this).data('client-id');
+  openUnlinkModal(clientId);
+});
 
+// Fetch and populate contacts dropdown when the unlink modal is opened
+function openUnlinkModal(clientId) {
+  fetchAndPopulateContactsDropdown();
+
+  // Set the clientId as a data attribute in the modal
+  $('#unlinkModal').data('client-id', clientId);
+
+  // Show the unlink modal
+  $('#unlinkModal').show();
+}
+
+// Function to fetch available contacts from the server and populate the dropdown
+function fetchAndPopulateContactsDropdown() {
+  // Fetch available contacts from the server
+  $.ajax({
+    url: '/clients/availableContacts',
+    method: 'GET',
+    success: function (availableContacts) {
+      populateContactDropdown(availableContacts);
+    },
+    error: function (error) {
+      console.error('Error fetching available contacts:', error);
+    },
+  });
+}
+
+// Function to populate the contact dropdown
+function populateContactDropdown(options) {
+  const dropdown = $('#contactDropdown');
+  dropdown.empty();
+  options.forEach(option => {
+    dropdown.append($('<option></option>').text(`${option.name} (${option.email})`).val(option._id));
+  });
+}
+
+// Open the unlink modal when Unlink is clicked
+$('.unlink').on('click', function (event) {
+  event.preventDefault();
+  const clientId = $(this).data('client-id');
+  openUnlinkModal(clientId);
+});
+
+// Add an event listener for the Unlink modal close button
+$('#unlinkModal .close-modal').on('click', function () {
+  // Close the unlink modal
+  closeUnlinkModal();
+});
+
+// Add an event listener for the Unlink button click
+$('#unlinkButton').on('click', function () {
+  // Retrieve selected contacts from the dropdown
+  const selectedContacts = $('#contactDropdown').val();
+
+  // Get the client ID from the modal data attribute
+  const clientId = $('#unlinkModal').data('client-id');
+
+  // Call the function to unlink contacts from the client
+  unlinkContactsFromClient(clientId, selectedContacts);
+
+  // Close the unlink modal
+  closeUnlinkModal();
+});
+
+function closeUnlinkModal() {
+  // Clear the dropdown and hide the unlink modal
+  $('#contactDropdown').empty();
+  $('#unlinkModal').hide();
+}
 
 });

@@ -104,6 +104,14 @@ router.get('/:clientId/unlink/:contactId', async (req, res) => {
   }
 });
 
-// Other routes for client actions
+router.get('/availableContacts', async (req, res) => {
+  try {
+    const availableContacts = await Contact.find().sort({ surname: 'asc' });
+    res.json(availableContacts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

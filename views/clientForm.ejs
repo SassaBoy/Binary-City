@@ -61,7 +61,20 @@
     </ul>
   </div>
   <hr>
-
+  <div id="unlinkModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Unlink Contact from Clients</h2>
+      <form id="unlinkForm">
+        <label for="contactDropdown">Select Contacts:</label>
+        <select multiple id="contactDropdown" name="contacts[]">
+          <!-- Options will be dynamically added using JavaScript -->
+        </select>
+        <button type="button" id="unlinkButton">Unlink</button>
+      </form>
+    </div>
+  </div>
+  
   <script src="/js/script.js" defer></script>
 </body>
 </html>

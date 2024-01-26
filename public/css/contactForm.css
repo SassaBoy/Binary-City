@@ -169,8 +169,43 @@ p {
   border-top: 1px solid #ddd;
   padding-top: 10px;
 }
+  /* Style for Unlinked Contacts under the Contacts tab */
+  #contacts #availableContacts {
+    list-style: none;
+    padding: 0;
+  }
 
+  #contacts #availableContacts li {
+    margin: 10px 0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc; /* Add a border between items */
+  }
 
+  #contacts #availableContacts li:last-child {
+    border-bottom: none; /* Remove border for the last item */
+  }
+
+  #contacts #availableContacts .link {
+    color: #333; /* Default text color */
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  #contacts #availableContacts .link:hover {
+    text-decoration: none;
+  }
+
+  
+  #contacts h2 {
+    margin: 0;
+    padding: 5px;
+    background-color: #C41200;
+    color: white;
+    border-radius: 5px;
+  }
 /* Styling for Logo */
 #logo-container {
   text-align: center;

@@ -8,7 +8,7 @@
   <title>Contact(s)</title>
 </head>
 <body>
-  <% if (contact.length > 0) { %>
+  <% if (contacts.length > 0) { %>
     <div id="banner-container">
       <img src="/img/Banner.png" alt="Banner Image" id="banner">
     </div>
@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <% contact.forEach(contact => { %>
+        <% contacts.forEach(contact => { %>
           <tr>
             <td><%= contact.surname %></td>
             <td><%= contact.name %></td>

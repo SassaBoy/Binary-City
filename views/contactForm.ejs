@@ -3,8 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/contactForm.css">
+  <link rel="stylesheet" type="text/css" href="/css/clientForm.css">
   <title>Create Client</title>
+  <style>
+     /* Hide Available Contacts under the General tab */
+  #general #availableContacts {
+    display: none;
+  }
+
+  #availableContacts li {
+    margin: 10px 0;
+  }
+
+  #availableContacts .link {
+    color: #C41200;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 10px;
+  }
+
+  #availableContacts .link:hover {
+    text-decoration: none;
+  }
+  </style>
 </head>
 <body>
   <!-- Logo -->
@@ -17,73 +40,56 @@
     <button onclick="openTab('general')">General</button>
     <button onclick="openTab('contacts')" class="contacts">Contact(s)</button>
   </div>
-  
 
-<div id="general" class="tabcontent">
-  <form action="/contacts/new" method="POST">
-    <!-- Display error messages -->
-    
+  <!-- General tab -->
+  <div id="general" class="tabcontent">
+    <form action="/contacts/new" method="POST">
+      <!-- Display error messages -->
+      <div id="errorMessages" style="display: none; color: red;"></div>
 
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
 
-    <label for="surname">Surname:</label>
-    <input type="text" id="surname" name="surname" required>
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" name="surname" required>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <div id="errorMessages" style="display: none; color: red;"></div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
 
-    <button type="submit">Create Contact</button>
-  </form>
-</div>
-
-<!-- ... (your existing HTML) ... -->
-
-<!-- Linked Contacts -->
-<ul id="linkedContacts">
-  <% if (linkedContacts.length > 0) { %>
-    <li>Linked Contacts:</li>
-    <% linkedContacts.forEach(linkedContact => { %>
-      <a href="#" class="unlink" data-client-id="<%= linkedContact.clientId %>" data-contact-id="<%= linkedContact.contactId._id %>">Unlink</a>
-    <% }); %>
-  <% } else { %>
-    <li>No linked contacts.</li>
-  <% } %>
-</ul>
-
-<!-- Available Contacts -->
-<ul id="availableContacts">
-  <% if (contact.length > 0) { %>
-    <li>Available Contacts:</li>
-    <% contact.forEach(contact => { %>
-      <li>
-        <%= contact.name %> (<%= contact.email %>) 
-        <a href="#" class="link" data-contact-id="<%= contact._id %>">Link</a>
-      </li>
-    <% }); %>
-  <% } else { %>
-    <li>No available contacts.</li>
-  <% } %>
-</ul>
-
-
-<!-- Modal for linking contacts to clients -->
-<div id="linkModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Link Contact to Clients</h2>
-    <label for="clientDropdown">Select Clients:</label>
-    <select id="clientDropdown" multiple>
-      <!-- Options will be dynamically added using JavaScript -->
-    </select>
-    <button id="linkButton">Link</button>
+      <button type="submit">Create Contact</button>
+    </form>
   </div>
-</div>
 
+  <!-- Available Contacts -->
+  <div id="contacts" class="tabcontent">
+  <ul id="availableContacts">
+    <% if (contact.length > 0) { %>
+      <li>Unlinked Contacts:</li>
+      <% contact.forEach(contact => { %>
+        <li>
+          <%= contact.name %> (<%= contact.email %>) 
+          <a href="#" class="link" data-contact-id="<%= contact._id %>">Link</a>
+        </li>
+      <% }); %>
+    <% } else { %>
+      <li>No available contacts.</li>
+    <% } %>
+  </ul>
+</div>
+  <!-- Modal for linking contacts to clients -->
+  <div id="linkModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Link Contact to Clients</h2>
+      <ul id="clientList">
+        <!-- Options will be dynamically added using JavaScript -->
+      </ul>
+      <button id="linkButton">Link</button>
+    </div>
+  </div>
 
   <script src="/js/script.js" defer></script>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
 </body>
 </html>

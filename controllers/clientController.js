@@ -4,6 +4,7 @@ const Client = require('../models/clientModel');
 const Contact = require('../models/contactModel');
 
 // Function to generate unique client code
+// Function to generate unique client code
 const generateClientCode = async (name) => {
   const sanitizedAlpha = name.replace(/[^A-Z]/g, '').toUpperCase().padEnd(3, 'A').slice(0, 3);
   const clientsCount = await Client.countDocuments() + 1;

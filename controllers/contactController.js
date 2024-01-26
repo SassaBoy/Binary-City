@@ -141,7 +141,7 @@ router.get('/', async (req, res) => {
     const linkedContactIds = linkedContacts.map(linkedContact => linkedContact.contactId._id.toString());
     const availableContacts = contacts.filter(contact => !linkedContactIds.includes(contact._id.toString()));
 
-    res.render('contactView', { clients, linkedContacts, availableContacts });
+    res.render('contactView', { clients, linkedContacts, availableContacts, contacts });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');

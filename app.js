@@ -40,7 +40,7 @@ app.use('/linked', linkedRoutes); // Add this line
 app.use('/contacts', contactRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
